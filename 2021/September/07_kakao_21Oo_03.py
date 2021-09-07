@@ -2,6 +2,7 @@ from pprint import pprint
 
 from itertools import combinations as comb
 from collections import deque
+import bisect
 
 def solution(info, query):
     answer = []
@@ -35,18 +36,28 @@ def solution(info, query):
                 continue
             crnt_key += qp
         
+        # 이진탐색
         cnt = 0
         if crnt_key in info_dict:
             l = info_dict[crnt_key]
-            start, end = 0, len(l)
-            while end > start:
-                mid = (start + end) // 2
-                if l[mid] >= qscore:
-                    end = mid
-                else:
-                    start = mid + 1
-            cnt = (len(l) - start)
+            
+            # 오소독스
+            # start, end = 0, len(l)
+            # while end > start:
+            #     mid = (start + end) // 2
+            #     if l[mid] >= qscore:
+            #         end = mid
+            #     else:
+            #         start = mid + 1
+            # cnt = (len(l) - start)
+
+            # 이진탐색 - 파이썬 자체 라이브러리
+            stnd = bisect.bisect_left(l, qscore)
+            cnt = len(l) - stnd
+
         answer.append(cnt)
+
+
 
     return answer
 
