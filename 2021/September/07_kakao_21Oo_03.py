@@ -57,8 +57,6 @@ def solution(info, query):
 
         answer.append(cnt)
 
-
-
     return answer
 
 
