@@ -98,7 +98,7 @@ for (const elm of inputExam) {
   // const { name, return } = key
 
   if (solution(name) === answer) {
-    console.log("The Answer")
+    console.log("Correct")
   }
   else {
     console.log("False")
