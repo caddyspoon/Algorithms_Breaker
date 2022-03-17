@@ -1,9 +1,9 @@
 tickets = [["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]
-
+answer2 = []
 def solution(tickets):
     answer = []
     rawRoutes = ['ICN']
-
+    tickets.sort()
     def dfs(tickets, routes):
         nonlocal answer
 
@@ -26,7 +26,9 @@ def solution(tickets):
 
 
     dfs(tickets, rawRoutes)
-    answer.sort()
+    # print(answer)
+    # answer.sort()
+    # print(answer)
     return answer[0]
-
+print('answer2: ', answer2)
 print(solution(tickets))
