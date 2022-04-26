@@ -1,23 +1,22 @@
 def solution(n, results):
     answer = 0
 
-    info = {}
-    arr = []
-    for i in range(n+1):
-        info[i] = []
-        arr.append([0, 0, 0, i])
+    graph = [[set(), set()] for _ in range(n+1)]
 
+    for winner, loser in results:
+        graph[winner][1].add(loser)
+        graph[loser][0].add(winner)
 
-    for a, b in results:
-        arr[a][0] += 1
-        arr[a][1] += 1
+    for win_info, lose_info in graph:
+        for winner in win_info:
+            graph[winner][1].update(lose_info)
 
-        arr[b][0] += 1
-        arr[b][2] += 1
+        for loser in lose_info:
+            graph[loser][0].update(win_info)
 
-    arr.sort(reverse=True)
-    print(arr)
-
+    for i in range(1, n+1):
+        if len(graph[i][0]) + len(graph[i][1]) == n-1:
+            answer += 1
 
     return answer
 
