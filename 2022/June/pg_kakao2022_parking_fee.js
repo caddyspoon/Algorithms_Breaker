@@ -54,9 +54,7 @@ function solution(fees, records) {
     }
   });
 
-  sortedKey.forEach(key => {
-    answer.push(feeInfo[key]);
-  })
+  sortedKey.forEach(key => answer.push(feeInfo[key]));
 
   return answer;
 }
