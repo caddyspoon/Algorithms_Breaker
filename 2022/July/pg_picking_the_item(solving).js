@@ -1,6 +1,21 @@
 const solution= function (rectangle, characterX, characterY, itemX, itemY) {
     // let answer = 0;
 
+    const pprint = (pan) => {
+        for (const i in pan) {
+            console.log(pan[i].join("    "));
+        }
+        // for (let i = pan.length - 1 ; i >= 0; i -= 1) {
+        //     for (let j = 0; j < pan[0].length; j += 1) {
+        //         // console.log(pan[i][j])
+        //         // process.stdout.write(pan[i][j]);
+        //     }
+        // }
+        // process.stdout.write('\n');
+    };
+
+
+    // 최대 맵사이즈를 구해서 빈 공간에 맵 그리기
     let mapSizeInfo = [Infinity, Infinity, -1, -1];
     for (const dots of rectangle){
         for (const idx in dots) {
@@ -18,10 +33,7 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
 
     let pan = new Array(mapSizeInfo[3] + 2).fill(0).map(() => new Array(mapSizeInfo[2] + 2).fill(0));
 
-    // for (const i in pan){
-    // 	console.log(pan[i].join(' '));
-    // }
-
+    // 각 도형의 테두리를 도형 숫자로 기입
     let squareNo = 1;
 
     for (const elm of rectangle) {
@@ -47,17 +59,19 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
             if (pan[elm[1]][i] === 0) {
                 pan[elm[1]][i] = squareNo;
             } else {
-                pan[elm[1]][i] = 'X'
+                // pan[elm[1]][i] = 'X'
+                pan[elm[1]][i] = [pan[elm[1]][i], squareNo];
             }
 
             if (pan[elm[3]][i] === 0) {
                 pan[elm[3]][i] = squareNo;
             } else {
-                pan[elm[3]][i] = 'X'
+                // pan[elm[3]][i] = 'X'
+                pan[elm[3]][i] = [pan[elm[3]][i], squareNo];
             }
         }
         //
-        // // 세로선 그리기
+        // 세로선 그리기
         for (let i = elm[1] + 1; i < elm[3]; i++) {
         	// pan[i][elm[0]] = squareNo;
         	// pan[i][elm[2]] = squareNo;
@@ -65,13 +79,15 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
             if (pan[i][elm[0]] === 0) {
                 pan[i][elm[0]] = squareNo
             } else {
-                pan[i][elm[0]] = 'X'
+                // pan[i][elm[0]] = 'X'
+                pan[i][elm[0]] = [pan[i][elm[0]], squareNo];
             }
 
             if (pan[i][elm[2]] === 0) {
                 pan[i][elm[2]] = squareNo
             } else {
-                pan[i][elm[2]] = 'X'
+                // pan[i][elm[2]] = 'X'
+                pan[i][elm[2]] = [pan[i][elm[2]], squareNo];
             }
 
 
@@ -96,9 +112,8 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
         }}
     }
 
-    // for (const i in pan){
-    //     console.log(pan[i].join(' '));
-    // }
+    console.log("BFS 전 지도");
+    pprint(pan);
 
     const dx = [1, 0, -1, 0, 1, 1, -1, -1];
     const dy = [0, 1, 0, -1, 1, -1, 1, -1];
@@ -139,6 +154,8 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
 
 
     // stack.push([characterY, characterX, 0, pan[characterY][characterX], pan[characterY][characterX]]);
+
+    // 출발점 초기화
     for (const idx in [0, 1, 2, 3]) {
         const ny = characterY + dy[idx];
         const nx = characterX + dx[idx];
@@ -149,16 +166,17 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
     }
 
     pan[itemY][itemX] = 'E';
+
+    // 방문여부 확인 Arr
     const visitedTrip = new Array(mapSizeInfo[3] + 2).fill(0).map(() => new Array(mapSizeInfo[2] + 2).fill(false));
 
+    // 첫 위치 true
     visitedTrip[characterY][characterX] = true;
 
     pan[characterY][characterX] = 'S';
 
     console.log("시작 전")
-    for (const i in pan){
-        console.log(pan[i].join(' '));
-    }
+    pprint(pan);
     console.log(" ")
 
     while (stack.length) {
@@ -168,12 +186,10 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
             const nx = currentX + dx[idx];
             const ny = currentY + dy[idx];
 
-            if (0 <= nx && nx < visitedTrip[0].length && 0 <= ny && visitedTrip.length) {
+            if (0 <= nx && nx < visitedTrip[0].length && 0 <= ny && ny < visitedTrip.length) {
                 if (pan[ny][nx] === 'E') {
                     console.log("종료")
-                    for (const i in pan){
-                        console.log(pan[i].join(' '));
-                    }
+                    pprint(pan);
 
                     console.log("The answer is :", depth + 1)
                     return depth + 1
@@ -182,29 +198,68 @@ const solution= function (rectangle, characterX, characterY, itemX, itemY) {
                 if (!visitedTrip[ny][nx] && pan[ny][nx] !== 0) {
                     console.log("currentSquare: ", currentSquare)
                     console.log("prevSquare: ", prevSquare)
-                    if (currentSquare === 'X' && prevSquare != pan[ny][nx] && pan[ny][nx] !== 'X') {
-                        visitedTrip[ny][nx] = true;
-                        stack.push([ny, nx, depth + 1, pan[ny][nx], currentSquare])
+                    console.log("현재 위치: ", ny, nx)
 
-                        pan[ny][nx] = 'V'
-                        break;
-                    } else if (1 <= currentSquare && currentSquare <= 4) {
-                        if (pan[ny][nx] === currentSquare || pan[ny][nx] === 'X') {
+                    // 교차점을 만났을 경우
+                    if (Array.isArray(pan[ny][nx])) {
+                        console.log()
+                        console.log("교차점 접근");
+                        console.log("현재 교차점: ", pan[ny][nx])
+                        if (pan[ny][nx].includes(currentSquare)) {
                             visitedTrip[ny][nx] = true;
 
-                            stack.push([ny, nx, depth + 1, pan[ny][nx], currentSquare])
+                            // let tempSqr = pan[ny][nx][0] === currentSquare ? pan[ny][nx][1] : pan[ny][nx][0];
+                            let tempSqr = NaN;
+                            if (pan[ny][nx][0] === currentSquare) {
+                                tempSqr = pan[ny][nx][1]
+                            } else if (pan[ny][nx][1] === currentSquare) {
+                                tempSqr = pan[ny][nx][0]
+                            }
 
+                            console.log("교차 어레이", pan[nx][ny])
+                            console.log("교차된 도형은: ", tempSqr);
+                            stack.push([ny, nx, depth + 1, tempSqr, currentSquare])
+
+                            // conosole에서 출력을 보기 위한 스트링 처리
                             pan[ny][nx] = 'V'
                             break;
                         }
                     }
+
+                    // 일반 진행 경우
+                    if (pan[ny][nx] === currentSquare) {
+                        visitedTrip[ny][nx] = true;
+
+                        stack.push([ny, nx, depth + 1, pan[ny][nx], currentSquare])
+
+                        pan[ny][nx] = 'V'
+                        break;
+                    }
+
+
+                    // if (currentSquare === 'X' && prevSquare != pan[ny][nx] && pan[ny][nx] !== 'X') {
+                    //     visitedTrip[ny][nx] = true;
+                    //     stack.push([ny, nx, depth + 1, pan[ny][nx], currentSquare])
+                    //
+                    //     pan[ny][nx] = 'V'
+                    //     break;
+                    //
+                    // // 일반 진행 경우
+                    // } else if (1 <= currentSquare && currentSquare <= 4) {
+                    //     if (pan[ny][nx] === currentSquare || pan[ny][nx] === 'X') {
+                    //         visitedTrip[ny][nx] = true;
+                    //
+                    //         stack.push([ny, nx, depth + 1, pan[ny][nx], currentSquare])
+                    //
+                    //         pan[ny][nx] = 'V'
+                    //         break;
+                    //     }
+                    // }
                 }
             }
         }
 
-        for (const i in pan){
-            console.log(pan[i].join(' '));
-        }
+        pprint(pan);
         console.log()
     }
 
