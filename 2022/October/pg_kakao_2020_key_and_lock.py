@@ -48,7 +48,7 @@ def solution(key, lock):
         return new_key
 
 
-    def is_complited(lock_arr):
+    def is_completed(lock_arr):
         for i in range(M):
             ni = i + N - 1
             for j in range(M):
@@ -84,7 +84,7 @@ def solution(key, lock):
                             flag = True
                             break
 
-                if is_complited(temp_map) and not flag:
+                if is_completed(temp_map) and not flag:
                     return True
                 key = turn_key(key)
 
