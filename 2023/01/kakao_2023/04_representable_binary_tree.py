@@ -39,7 +39,7 @@ def verdict(target_num):
         # 부모노드가 0인데 자식노드가 존재하는 경우 -> 트리로 표현되지 않는 표현식
         # 따라서 이진 트리로 만들 수 없다고 판별하여 0을 반환
         if (num[parent_node]) == '0' and '1' in num:
-                return 0
+            return 0
 
         # 현재 이진트리를 반으로 쪼개서 왼쪽 트리를 스택에 넣기
         stack.append(num[:parent_node])

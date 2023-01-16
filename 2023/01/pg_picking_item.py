@@ -29,7 +29,7 @@ def cal_wh(rectangle):
     return h + 2, w + 2
 
 # 인덱스 유효 판별 함수
-def isIn(x, y, h, w):
+def is_in(x, y, h, w):
     if 0 <= x < h and 0 <= y < w:
         return True
     return False
@@ -78,7 +78,7 @@ def draw_line(pan):
             np = p + ddx[i]
             nq = q + ddy[i]
 
-            if isIn(np, nq, h, w):
+            if is_in(np, nq, h, w):
 
                 if not inner_visited[np][nq]:
                     inner_visited[np][nq] = True

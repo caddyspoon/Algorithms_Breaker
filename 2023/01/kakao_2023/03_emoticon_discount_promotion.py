@@ -16,8 +16,12 @@ def solution(users, emoticons):
             for idx, emo in enumerate(emoticons):
                 if dc_cut <= dc_info[idx]:
                     sum_cost += emo - int(emo * (dc_info[idx] / 100))
+
                     # FIXME: 아래 계산식으로는 통과하지 못함
                     # sum_cost += int((100 - dc_info[idx]) / 100  * emo)
+                    # 위의 식을 아래로 바꾸면 통과 함
+                    # sum_cost += (100 - dc_info[idx]) / 100  * emo
+                    # sum_cost = int(sum_cost)
             
                 if sum_cost >= budget:
                     sub_cnt += 1
