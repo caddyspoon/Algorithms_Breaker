@@ -59,9 +59,11 @@ def solution(numbers):
         # 현재 수를 이진수로 변환하기
         bin_nums.append(conv_to_bin(num))
 
-
     for bin_num in bin_nums:
         # 변환된 수를 이진트리로 만들 수 있는지 확인하기
         answer.append(verdict(bin_num))    
 
     return answer
+
+# 확인해보기
+solution([42])
