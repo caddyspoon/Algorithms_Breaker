@@ -13,15 +13,13 @@ const solution = (n, times) => {
     const middle = parseInt((left + right) / 2);
 
     // 중간 시간을 기준으로 처리할 수 있는 민원인 수
-    let currAvailTasks = 0;
-
-    times.forEach((taskTime) => {
+    let currAvailTasks = times.reduce((prev, taskTime) => {
       // 현재 시간 기준으로 각 심사대가 처리할 수 있는 민원 수
-      const availTaskCount = parseInt(middle / taskTime);
-      currAvailTasks += availTaskCount;
-    });
+      prev += parseInt(middle / taskTime);
+      return prev;
+    }, 0);
 
-    // 중과 부적일 경우!
+    // 중과부적일 경우!
     if (currAvailTasks < n) {
       left = middle + 1;
 
