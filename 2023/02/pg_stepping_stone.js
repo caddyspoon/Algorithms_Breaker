@@ -4,19 +4,18 @@ const solution = (distance, rocks, n) => {
   let left = 1;
   let right = distance;
 
-  const gapArr = rocks.reduce((prev, rock, idx) => {
-    if (idx === 0) {
-      prev.push(rock);
-    } else {
-      prev.push(rock - rocks[idx - 1]);
-    }
+  const gapArr = rocks.reduce(
+    (prev, rock, idx) => {
+      if (idx === rocks.length - 1) {
+        prev.push(distance - rock);
+      } else {
+        prev.push(rocks[idx + 1] - rock);
+      }
 
-    if (idx === rocks.length - 1) {
-      prev.push(distance - rock);
-    }
-
-    return prev;
-  }, []);
+      return prev;
+    },
+    [rocks[0]]
+  );
 
   while (left <= right) {
     let removedStone = 0;
