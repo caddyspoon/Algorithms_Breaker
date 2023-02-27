@@ -5,7 +5,6 @@ const solution = (distance, rocks, n) => {
   let right = distance;
 
   const gapArr = rocks.reduce((prev, rock, idx) => {
-    // console.log(prev);
     if (idx === 0) {
       prev.push(rock);
     } else {
@@ -23,12 +22,24 @@ const solution = (distance, rocks, n) => {
     let removedStone = 0;
     let middle = Math.floor((left + right) / 2);
 
-    [...gapArr].forEach((gap) => {});
+    [...gapArr].reduce((prevGap, gap) => {
+      prevGap += gap;
+      if (prevGap > middle) {
+        return 0;
+      } else {
+        removedStone += 1;
+        return prevGap;
+      }
+    }, 0);
 
-    break;
+    if (removedStone > n) {
+      right = middle - 1;
+    } else {
+      left = middle + 1;
+    }
   }
 
-  console.log(left, right);
+  return left;
 };
 
 const distance = 25;
@@ -37,6 +48,7 @@ const n = 2;
 
 console.log(solution(distance, rocks, n));
 
+// 이전 고생했던 코드
 // const solution = (distance, rocks, n) => {
 //   rocks = rocks.sort((a, b) => a - b);
 //
