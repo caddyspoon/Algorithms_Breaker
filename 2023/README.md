@@ -1,7 +1,8 @@
 # 2023년 2월
-| 해결 날짜 | 문제 출처    | 이름                                                         | 난이도 |
-| --------- | ------------ | ------------------------------------------------------------ | ------ |
-| 2월 20일  | 프로그래머스 | [입국심사](https://school.programmers.co.kr/learn/courses/30/lessons/43238?language=javascript) | Lv. 3  |
+| 해결 날짜  | 문제 출처    | 이름                                                                                          | 난이도 |
+|--------| ------------ |---------------------------------------------------------------------------------------------| ------ |
+| 2월 27일 | 프로그래머스 | [징검다리](https://school.programmers.co.kr/learn/courses/30/lessons/43236?language=javascript) | Lv. 3  |
+| 2월 20일 | 프로그래머스 | [입국심사](https://school.programmers.co.kr/learn/courses/30/lessons/43238?language=javascript) | Lv. 3  |
 
 
 
