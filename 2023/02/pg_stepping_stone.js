@@ -4,6 +4,7 @@ const solution = (distance, rocks, n) => {
   let left = 1;
   let right = distance;
 
+  // 돌의 간격을 넣는 배열
   const gapArr = rocks.reduce(
     (prev, rock, idx) => {
       if (idx === rocks.length - 1) {
