@@ -16,6 +16,7 @@ const solution = (n, wires) => {
     } else {
       pNodeDict.set(nodes[0], crntValue + 1);
     }
+    
   });
 
   pNodeDict.keys.forEach((elm) => console.log(elm));
